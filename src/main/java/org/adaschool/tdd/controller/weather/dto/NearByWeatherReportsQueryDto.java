@@ -4,7 +4,6 @@ import org.adaschool.tdd.repository.document.GeoLocation;
 
 public class NearByWeatherReportsQueryDto
 {
-
     private final GeoLocation geoLocation;
 
     private final float distanceRangeInMeters;

@@ -1,6 +1,5 @@
-package org.adaschool.tdd;
+package org.adaschool.tdd.mongoweatherservice;
 
-import org.adaschool.tdd.controller.weather.dto.WeatherReportDto;
 import org.adaschool.tdd.exception.WeatherReportNotFoundException;
 import org.adaschool.tdd.repository.WeatherReportRepository;
 import org.adaschool.tdd.repository.document.GeoLocation;
@@ -30,6 +29,7 @@ class MongoWeatherServiceTest
     @Mock
     WeatherReportRepository repository;
 
+
     @BeforeAll()
     public void setup()
     {
@@ -39,17 +39,15 @@ class MongoWeatherServiceTest
     @Test
     void createWeatherReportCallsSaveOnRepository()
     {
-        double lat = 4.7110;
-        double lng = 74.0721;
-        GeoLocation location = new GeoLocation( lat, lng );
-        WeatherReportDto weatherReportDto = new WeatherReportDto( location, 35f, 22f, "tester", new Date() );
-        weatherService.report( weatherReportDto );
+        weatherService = new MongoWeatherService( repository );
+        weatherService.report(ConstantesData.getRequestWeatherDto() );
         verify( repository ).save( any( WeatherReport.class ) );
     }
 
     @Test
     void weatherReportIdFoundTest()
     {
+        weatherService = new MongoWeatherService( repository );
         String weatherReportId = "awae-asd45-1dsad";
         double lat = 4.7110;
         double lng = 74.0721;

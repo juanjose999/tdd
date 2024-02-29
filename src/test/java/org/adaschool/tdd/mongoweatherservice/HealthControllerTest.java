@@ -1,4 +1,4 @@
-package org.adaschool.tdd;
+package org.adaschool.tdd.mongoweatherservice;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
