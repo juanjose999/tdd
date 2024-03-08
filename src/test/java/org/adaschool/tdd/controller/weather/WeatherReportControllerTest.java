@@ -1,9 +1,7 @@
 package org.adaschool.tdd.controller.weather;
 
-import org.adaschool.tdd.controller.weather.dto.NearByWeatherReportsQueryDto;
 import org.adaschool.tdd.controller.weather.dto.WeatherReportDto;
-import org.adaschool.tdd.mongoweatherservice.ConstantesData;
-import org.adaschool.tdd.repository.document.GeoLocation;
+import org.adaschool.tdd.mongoweatherservice.fakeData.ConstantesData;
 import org.adaschool.tdd.repository.document.WeatherReport;
 import org.adaschool.tdd.service.WeatherService;
 import org.junit.jupiter.api.Test;
@@ -15,10 +13,6 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
-import org.springframework.test.context.TestExecutionListeners;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
@@ -38,6 +32,8 @@ class WeatherReportControllerTest {
     void create_Test_Returns_Equals_Expected() {
         String uri = "http://localhost:" + port + "/v1/weather";
         WeatherReportDto request = ConstantesData.getRequestWeatherDto();
+
+        // Create the expected WeatherReport
         WeatherReport expected = new WeatherReport(
                 request.getGeoLocation(),
                 request.getTemperature(),
@@ -45,21 +41,30 @@ class WeatherReportControllerTest {
                 request.getReporter(),
                 request.getCreated()
         );
+
+        // Mock the report method and return the expected WeatherReport
+        when(weatherService.report(any())).thenReturn(expected);
+
         HttpEntity<WeatherReportDto> body = new HttpEntity<>(request);
 
         ResponseEntity<WeatherReport> responseEntity = this.restTemplate.postForEntity(uri, body, WeatherReport.class);
         WeatherReport response = responseEntity.getBody();
 
-        assertEquals(expected, response);
-
+        // Compare individual fields or override equals method in WeatherReport class
+        assertEquals(expected.getGeoLocation(), response.getGeoLocation());
+        assertEquals(expected.getTemperature(), response.getTemperature());
+        assertEquals(expected.getHumidity(), response.getHumidity());
+        assertEquals(expected.getReporter(), response.getReporter());
+        assertEquals(expected.getCreated(), response.getCreated());
     }
+
 
 
     @Test
     void findById_Test_Returns_Equals_Expected() {
-        String uri = "http://localhost:" + port +"/v1/weather/8fgsffsghghd5g5461g6fg5";
+        String uri = "http://localhost:" + port + "/v1/weather/validId";
         WeatherReport expected = ConstantesData.getWeatherReport();
-        when(weatherService.findById(anyString())).thenReturn(expected);
+        when(weatherService.findById(eq("validId"))).thenReturn(expected);
         WeatherReport response = this.restTemplate.getForObject(uri,WeatherReport.class);
 
         assertEquals(expected,response);

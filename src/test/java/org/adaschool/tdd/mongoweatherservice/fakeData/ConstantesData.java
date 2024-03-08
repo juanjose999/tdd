@@ -1,4 +1,4 @@
-package org.adaschool.tdd.mongoweatherservice;
+package org.adaschool.tdd.mongoweatherservice.fakeData;
 
 import org.adaschool.tdd.controller.weather.dto.WeatherReportDto;
 import org.adaschool.tdd.repository.document.GeoLocation;

@@ -1,6 +1,7 @@
 package org.adaschool.tdd.mongoweatherservice;
 
 import org.adaschool.tdd.exception.WeatherReportNotFoundException;
+import org.adaschool.tdd.mongoweatherservice.fakeData.ConstantesData;
 import org.adaschool.tdd.repository.WeatherReportRepository;
 import org.adaschool.tdd.repository.document.GeoLocation;
 import org.adaschool.tdd.repository.document.WeatherReport;
